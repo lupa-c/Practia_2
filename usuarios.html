@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>REGISTROS DE USUARIOS EN MEMORIA</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 30px;
+      }
+
+      input {
+        margin: 5px;
+        padding: 5px;
+      }
+
+      button {
+        padding: 5px 10px;
+      }
+
+      #lista-usuarios li {
+        margin: 5px 0;
+      }
+
+      .eliminar {
+        margin-left: 10px;
+        color: blue;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Registro de Usuarios</h2>
+
+    <form id="formulario-usuario">
+      <input type="text" id="nombre" placeholder="Nombre" required />
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="number" id="edad" placeholder="Edad" required />
+      <button type="submit">Registrar</button>
+    </form>
+
+    <div id="error" style="color: greenyellow; margin-top: 10px"></div>
+
+    <ul id="lista-usuarios"></ul>
+
+    <p id="total-usuarios">Total: 0</p>
+
+    <script src="usuarios.js"></script>
+  </body>
+</html>
