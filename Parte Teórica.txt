@@ -1,0 +1,124 @@
+Parte Teórica
+1. Preguntas Conceptuales
+a) ¿Qué es el DOM y cómo se relaciona con HTML?
+R-Imaginá que el HTML es como el plano de una casa. Tenés los cuartos, las puertas, las ventanas, todo dibujado y definido ahí. Ahora, el DOM sería la casa ya construida, donde cada cosa (una lámpara, una silla, una puerta) está puesta en su lugar, y vos podés caminar por ella, abrir una puerta, cambiar una bombita o mover un sillón.
+Cuando el navegador lee el HTML, no lo deja ahí nomás como si fuera una foto; lo transforma en algo "vivo": el DOM. Eso permite que con JavaScript puedas decir cosas como: “Cambiame este título”, “Mostrame esta imagen cuando aprieten el botón”, o “Ocultá este texto si alguien marca esta casilla”.
+
+b) Explica la diferencia entre:
+
+document.getElementById() vs document.querySelector().
+textContent vs innerHTML.
+
+R- getElementById() = “Buscá algo con un ID exacto.”
+
+   querySelector() = “Buscá el primer elemento que coincida con este estilo CSS.”
+
+   textContent = “Mostrá esto tal cual, sin formato.”
+
+   innerHTML = “Mostrá esto con formato HTML interpretado.”
+
+c) ¿Para qué sirve addEventListener? Proporciona un ejemplo.
+R-Imaginate que tenés un botón en una página web, como un timbre. Por sí solo, el timbre no hace nada.
+Pero con addEventListener, es como si dijeras, “Che, botón... cuando alguien te haga clic, hacé algo.”
+ejemplo HTML
+<button id="saludoBtn">Saludame</button>
+ejemlplo javascrip
+const boton = document.getElementById("saludoBtn");
+
+boton.addEventListener("click", () => {
+  alert("¡Hola! Gracias por hacer clic");
+});
+
+d) ¿Qué métodos del DOM se usan para capturar valores de un formulario?
+R. 1) const nombre = document.getElementById("nombre").value;
+2) const email = document.querySelector("input[type='email']").value;
+3) formulario.addEventListener("submit", (event) => {
+  event.preventDefault(); // Evita que la página se recargue
+  const nombre = event.target.nombre.value;
+  const email = event.target.email.value;
+});
+
+e) Explica cómo prevenir el envío por defecto de un formulario con JavaScript.
+const formulario = document.getElementById("miFormulario");
+
+formulario.addEventListener("submit", (event) => {
+  event.preventDefault(); 
+  const nombre = event.target.nombre.value;
+  console.log("El usuario escribió:", nombre);
+});
+
+f) ¿Qué es el "almacenamiento en memoria" y en qué se diferencia de localStorage?
+R- Almacenamiento en memoria: Es como un post-it que borrás cuando terminas de trabajar. Solo está ahí mientras la página esté abierta.
+
+localStorage: Es como guardar algo en un cajón, para que esté disponible cada vez que abras la página, hasta que tú decidas borrarlo.
+
+2. Análisis de Código
+Dado el siguiente código:
+
+<button id="btn">Haz clic</button>
+<p id="mensaje"></p>
+document.getElementById("btn").addEventListener("click", () => {
+  document.getElementById("mensaje").textContent = "¡Botón presionado!";
+});
+Preguntas:
+
+¿Qué hace el código?
+R- Hay un botón con el id="btn" y un párrafo vacío con el id="mensaje".
+
+document.getElementById("btn"): Esto selecciona el botón con el id="btn".
+
+.addEventListener("click", ...): Le está diciendo al navegador: “Cuando hagan clic en el botón, ejecutá una acción”.
+
+Dentro de la función que se ejecuta cuando se hace clic, se cambia el contenido del párrafo con id="mensaje". Se pone el texto "¡Botón presionado!" en ese párrafo.
+
+¿Qué pasaría si cambiamos textContent por innerHTML?
+Cambiaría el contenido HTML. Es decir, permitiría interpretar etiquetas HTML, lo que significa que puedes incluir elementos como <b>, <i>.
+
+
+3. Análisis de Código
+Dado el siguiente formulario:
+
+<form id="form-usuario">
+  <input type="text" id="nombre" placeholder="Nombre">
+  <button type="submit">Guardar</button>
+</form>
+<ul id="lista-usuarios"></ul>
+const usuarios = []; // Array para simular persistencia
+
+document.getElementById("form-usuario").addEventListener("submit", (e) => {
+  e.preventDefault(); // ¿Por qué es importante esta línea?
+  const nombre = document.getElementById("nombre").value;
+  usuarios.push(nombre); // Almacena en memoria
+  actualizarListaUsuarios();
+});
+
+function actualizarListaUsuarios() {
+  const lista = document.getElementById("lista-usuarios");
+  lista.innerHTML = usuarios.map(user => `<li>${user}</li>`).join("");
+}
+Preguntas:
+
+¿Qué hace el código al enviar el formulario?
+R-Capturamos el clic en el formulario: Cuando haces clic en el botón de "Guardar", JavaScript detecta el evento de envío del formulario (el submit) y hace algo diferente a lo que normalmente pasaría (que sería recargar la página).
+
+e.preventDefault(): Aquí está la magia. Esta línea de código le dice al navegador:
+
+“No recargues la página, ¡que yo me encargo!”
+Si no estuviera esta línea, el formulario recargaría la página (y todo lo que escribiste desaparecería).
+
+Recogemos el nombre: Después de evitar que se recargue la página, JavaScript agarra lo que escribiste en el campo de texto.
+Imagináte que pusiste "Juan", esa información ahora está disponible para el código.
+
+Guardamos el nombre: El nombre de "Juan" se guarda dentro de un array (una lista en memoria). Algo así como:
+usuarios = ["Juan"]. Este array es una lista que mantiene todos los nombres que vas agregando.
+
+Actualizamos la lista: Finalmente, el código actualiza una lista en la página (como si fuera un pequeño "registro de nombres"), mostrando el nuevo nombre que acabas de agregar. El formulario se queda vacío, listo para ingresar otro nombre.
+
+¿Cómo se simula la "persistencia de datos" aquí?
+R-Persistencia en memoria: Los nombres que ingresás se guardan en un array en la memoria del navegador. Este array es como una libreta donde vas anotando cosas.
+
+Simulación de persistencia: Si cierras o recargas la página, los nombres se borran porque están guardados solo en la memoria temporal del navegador. No están en un servidor ni en el disco duro de tu computadora, por lo que se pierde todo cuando cierras la página.
+
+Simular persistencia: Aunque no estamos guardando los datos en una base de datos o algo que sobreviva después de recargar, lo que hacemos es simular que los datos se quedan mientras dure la sesión. Podrías usar algo como localStorage si quisieras que los datos realmente persistan después de cerrar la página o el navegador.
+
+
